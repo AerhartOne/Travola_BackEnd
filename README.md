@@ -1,4 +1,4 @@
-# REMEMBER TO USE `git checkout -b <new_branch_name>` BEFORE STARTING WORK ON ANYTHING. COMMITTING DIRECTLY TO MASTER IS TO INVITE THE GODS OF CHAOS INTO OUR WORLD
+# Remember to use `git checkout -b <new_branch_name>` before starting work on anything. Committing directly to `master` is to invite the Gods of Chaos into our world
 
 ## Things that you'll need to do before running anything
 
