@@ -1,4 +1,6 @@
-# Things that you'll need to do before running anything
+# REMEMBER TO USE `git checkout -b <new_branch_name>` BEFORE STARTING WORK ON ANYTHING. COMMITTING DIRECTLY TO MASTER IS TO INVITE THE GODS OF CHAOS INTO OUR WORLD
+
+## Things that you'll need to do before running anything
 
 1. Set up your Anaconda environment with `conda create -n Travola_Flask python=3.7`.
 
