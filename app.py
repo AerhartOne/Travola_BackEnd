@@ -6,7 +6,7 @@ from flask_wtf.csrf import CSRFProtect
 import flask_login 
 
 web_dir = os.path.join(os.path.dirname(
-    os.path.abspath(__file__)), 'instagram_web')
+    os.path.abspath(__file__)), 'Travola_API')
 
 app = Flask('Travola', root_path=web_dir)
 login_manager = flask_login.LoginManager()
