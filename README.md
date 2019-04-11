@@ -1,10 +1,10 @@
 # Things that you'll need to do before running anything
 
-### Set up your Anaconda environment with `conda create -n Travola_Flask python=3.7`.
+1. Set up your Anaconda environment with `conda create -n Travola_Flask python=3.7`.
 
-### Install all the required packages using `pip install -r requirements.txt`. Make sure you've navigated your terminal to the repository directory first.
+2. Install all the required packages using `pip install -r requirements.txt`. Make sure you've navigated your terminal to the repository directory first.
 
-### You'll need to configure your own Environment Variables in a  `.env` file. Variables currently required:
+3. You'll need to configure your own Environment Variables in a  `.env` file. Variables currently required:
 
 #### Flask
 - `FLASK_APP='start'`
@@ -16,4 +16,4 @@
 - DB_TIMEOUT=300
 - DB_POOL=5
 
-### You'll also need to have a PostgreSQL server running on your machine, since the Flask infrastructure needs it to be there.
+4. You'll also need to have a PostgreSQL server running on your machine, since the Flask infrastructure needs it to be there.
