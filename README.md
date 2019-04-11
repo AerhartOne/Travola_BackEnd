@@ -9,13 +9,13 @@
 3. You'll need to configure your own Environment Variables in a  `.env` file. Variables currently required:
 
 #### Flask
-- `FLASK_APP='start'`
-- `FLASK_ENV='development'`
-- `FLASK_DEBUG=1`
+- `FLASK_APP ='start'`
+- `FLASK_ENV ='development'`
+- `FLASK_DEBUG = 1`
 
 #### PostgreSQL Database
-- DATABASE_URL='postgres://localhost:5432/Travola_DB' 
-- DB_TIMEOUT=300
-- DB_POOL=5
+- DATABASE_URL = 'postgres://localhost:5432/Travola_DB' 
+- DB_TIMEOUT = 300
+- DB_POOL = 5
 
 4. You'll also need to have a PostgreSQL server running on your machine, since the Flask infrastructure needs it to be there. Don't forget to use `python migrate.py` to create all the required tables and fields in the DB before trying to use it.
