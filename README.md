@@ -1,5 +1,9 @@
 # Things that you'll need to do before running anything
 
+### Set up your Anaconda environment with `conda create -n Travola_Flask python=3.7`.
+
+### Install all the required packages using `pip install -r requirements.txt`. Make sure you've navigated your terminal to the repository directory first.
+
 ### You'll need to configure your own Environment Variables in a  `.env` file. Variables currently required:
 
 #### Flask
