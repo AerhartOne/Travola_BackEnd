@@ -10,6 +10,7 @@ if not os.getenv('FLASK_ENV') == 'production':
 
 import peeweedbevolve
 from models.base_model import db
+from models import user, trip, trip_event, file_attachment, photo_attachment
 
 print("Running Migration")
 if os.getenv('FLASK_ENV') == 'production':
