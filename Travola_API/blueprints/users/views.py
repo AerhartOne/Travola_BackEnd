@@ -19,3 +19,4 @@ def user_profile(id):
         email=target_user.email
     )
     return user_as_json
+
