@@ -9,6 +9,7 @@ class TripEvent(BaseModel):
 
     def as_dict(self):
         json_dict = {
+            'id': self.id,
             'parent_trip': self.parent_trip.id,
             'date_time': self.date_time,
             'location': self.location

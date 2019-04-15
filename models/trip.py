@@ -8,6 +8,7 @@ class Trip(BaseModel):
     
     def as_dict(self):
         json_dict = {
+            'id' : self.id,
             'trip_name': self.trip_name,
             'parent_user': self.parent_user.id
         }

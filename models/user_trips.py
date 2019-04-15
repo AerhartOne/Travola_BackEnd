@@ -9,6 +9,7 @@ class UserTrip(BaseModel):
 
     def as_dict(self):
         json_dict = {
+            'id' : self.id,
             'user': self.user.id,
             'trip': self.trip.id
         }
