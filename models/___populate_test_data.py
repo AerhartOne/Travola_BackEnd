@@ -70,27 +70,27 @@ from datetime import datetime
 tripevent_list = [
     {
         'parent_trip' : 1,
-        'date_time' : datetime.datetime(2019, 8, 12),
+        'date_time' : datetime(2019, 8, 12),
         'location' : 'Berlin'
     },
     {
         'parent_trip' : 1,
-        'date_time' : datetime.datetime(2019, 7, 23),
+        'date_time' : datetime(2019, 7, 23),
         'location' : 'Frankfurt'
     },
     {
         'parent_trip' : 2,
-        'date_time' : datetime.datetime(2019, 4, 18),
+        'date_time' : datetime(2019, 4, 18),
         'location' : 'California'
     },
     {
         'parent_trip' : 3,
-        'date_time' : datetime.datetime(2019, 3, 22),
+        'date_time' : datetime(2019, 3, 22),
         'location' : 'Arizona'
     },
     {
         'parent_trip' : 4,
-        'date_time' : datetime.datetime(2019, 4, 2),
+        'date_time' : datetime(2019, 4, 2),
         'location' : 'Florida'
     }
 ]
