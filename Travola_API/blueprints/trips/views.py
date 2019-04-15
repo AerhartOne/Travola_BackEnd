@@ -18,7 +18,7 @@ def index():
         trip_list.append( t.as_json_dict() )
 
     result = jsonify( {
-        'data': jsonify(trip_list)
+        'data': trip_list
         } )
     return result
 

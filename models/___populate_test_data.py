@@ -94,3 +94,10 @@ tripevent_list = [
         'location' : 'Florida'
     }
 ]
+
+for te in tripevent_list:
+    TripEvent.create(
+        parent_trip=te['parent_trip'],
+        date_time=te['date_time'],
+        location=te['location']
+    )
