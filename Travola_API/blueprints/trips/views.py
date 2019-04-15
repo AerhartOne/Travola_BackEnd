@@ -52,6 +52,7 @@ def delete():
     result = jsonify({
         'status' : successfully_deleted
     })
+    return result
 
 
 @trips_api_blueprint.route('/<trip_id>/users/add', methods=['POST'])
