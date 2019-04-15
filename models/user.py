@@ -18,3 +18,12 @@ class User(UserMixin, BaseModel):
             self.errors.append('Username must be at least 5 characteers long!')
         if not self.password:
             self.errors.append('You must enter a password!')
+
+    def as_json_dict(self):
+        json_dict = {
+            'first_name' : self.first_name,
+            'last_name' : self.last_name,
+            'email' : self.email,
+            'username' : self.username
+        }
+        return json_dict
