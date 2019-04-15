@@ -35,3 +35,62 @@ for u in userlist:
             last_name=u['last_name']
         )
 
+# Trips
+from models.trip import Trip
+triplist =[
+    {
+        'trip_name' : 'Working in Europe',
+        'parent_user' : 1
+    },
+    {
+        'trip_name' : 'Guy Things',
+        'parent_user' : 2
+    },
+    {
+        'trip_name' : 'Heroic Things',
+        'parent_user' : 2
+    },
+    {
+        'trip_name' : 'Florida Trip',
+        'parent_user' : 3
+    }
+]
+
+for t in triplist:
+    if Trip.get_or_none(Trip.trip_name == t['trip_name']) == None:
+        Trip.create(
+            trip_name = t['trip_name'],
+            parent_user = t['parent_user']
+        )
+
+# Trip Events
+from models.trip_event import TripEvent
+from datetime import datetime
+
+tripevent_list = [
+    {
+        'parent_trip' : 1,
+        'date_time' : datetime.datetime(2019, 8, 12),
+        'location' : 'Berlin'
+    },
+    {
+        'parent_trip' : 1,
+        'date_time' : datetime.datetime(2019, 7, 23),
+        'location' : 'Frankfurt'
+    },
+    {
+        'parent_trip' : 2,
+        'date_time' : datetime.datetime(2019, 4, 18),
+        'location' : 'California'
+    },
+    {
+        'parent_trip' : 3,
+        'date_time' : datetime.datetime(2019, 3, 22),
+        'location' : 'Arizona'
+    },
+    {
+        'parent_trip' : 4,
+        'date_time' : datetime.datetime(2019, 4, 2),
+        'location' : 'Florida'
+    }
+]
