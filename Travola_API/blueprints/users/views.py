@@ -74,14 +74,12 @@ def logout():
 @users_api_blueprint.route('/<id>/trips', methods=['GET'])
 def get_trips(id):
     trip = Trip.select().where(Trip.parent_user_id==id)
-    #check whether trip is getting the right Trip object
-    result = jsonify(
-        id=trip.id,
-        trip_name=trip.trip_name,
-        parent_user=trip.parent_user_id,
-    )
-    if trip:
-        return result
-    else:
-        return jsonify({'status' : False})
+    trip_list = []
+    for t in trip:
+        trip_list.append( t.as_json_dict() )
+
+    result = jsonify( {
+        'data': jsonify(trip_list)
+    } )
+    return result
 
