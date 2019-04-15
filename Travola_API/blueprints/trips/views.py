@@ -16,7 +16,11 @@ def index():
     trip_list = []
     for t in trip_query:
         trip_list.append( t.as_json_dict() )
-    return jsonify( trip_list )
+
+    result = jsonify( {
+        'data': jsonify(trip_list)
+        } )
+    return result
 
 # Creates a new Trip object and saves it to the DB.
 # Doesn't yet have any validation for trip_name.
@@ -54,13 +58,15 @@ def delete():
 def add_user(trip_id):
     user_id = request.form['user_id']
     user_object = User.get_or_none(User.id == user_id)
-    if (user_object != None):
-        UserTrip.create(user=user_object.id, trip=trip_id)
-        
-    successfully_created = UserTrip.get_or_none(UserTrip.user == user_id & UserTrip.trip == trip_id) != None
+    user_trip_object = UserTrip.get_or_none(UserTrip.user == user_id & UserTrip.trip == trip_id)
+    if (user_object != None and user_trip_object == None):
+        user_trip_object = UserTrip.create(user=user_object.id, trip=trip_id)    
+    
+    successfully_created = (user_trip_object != None)
 
     result = jsonify({
-        'status' : successfully_created
+        'status' : successfully_created,
+        'data' : user_trip_object.as_json_dict()
     })
     return result
 
