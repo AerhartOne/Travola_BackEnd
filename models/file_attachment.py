@@ -3,7 +3,7 @@ from models.trip_event import TripEvent
 import peewee as pw
 
 class FileAttachment(BaseModel):
-    parent_event = pw.ForeignKeyField(TripEvent, backref="events")
+    parent_event = pw.ForeignKeyField(TripEvent, backref="file_attachments")
     url = pw.TextField(null=True)
 
     def as_json_dict(self):

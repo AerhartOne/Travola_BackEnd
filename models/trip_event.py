@@ -3,6 +3,14 @@ import peewee as pw
 from models.trip import Trip
 
 class TripEvent(BaseModel):
-    parent_trip_id = pw.ForeignKeyField(Trip, backref='tripevent', unique=False, on_delete='CASCADE')
+    parent_trip = pw.ForeignKeyField(Trip, backref='trip_events', unique=False, on_delete='CASCADE')
     date_time = pw.DateTimeField()
     location = pw.CharField(unique=False)
+
+    def as_json_dict(self):
+        json_dict = {
+            'parent_trip': self.parent_trip.id,
+            'date_time': self.date_time,
+            'location': self.location
+        }
+        return json_dict
