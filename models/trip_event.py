@@ -7,7 +7,7 @@ class TripEvent(BaseModel):
     date_time = pw.DateTimeField()
     location = pw.CharField(unique=False)
 
-    def as_json_dict(self):
+    def as_dict(self):
         json_dict = {
             'parent_trip': self.parent_trip.id,
             'date_time': self.date_time,

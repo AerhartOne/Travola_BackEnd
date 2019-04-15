@@ -19,7 +19,7 @@ class User(UserMixin, BaseModel):
         if not self.password:
             self.errors.append('You must enter a password!')
 
-    def as_json_dict(self):
+    def as_dict(self):
         json_dict = {
             'first_name' : self.first_name,
             'last_name' : self.last_name,

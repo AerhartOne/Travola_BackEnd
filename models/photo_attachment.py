@@ -6,7 +6,7 @@ class PhotoAttachment(BaseModel):
     parent_event = pw.ForeignKeyField(TripEvent, backref="photo_attachments")
     url = pw.TextField(null=True)
     
-    def as_json_dict(self):
+    def as_dict(self):
         json_dict = {
             'parent_event': self.parent_event.id,
             'url': self.url

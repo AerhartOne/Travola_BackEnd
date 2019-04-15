@@ -10,7 +10,7 @@ trip_events_api_blueprint = Blueprint('trip_events_api',
 
 @trip_events_api_blueprint.route('/', methods=['GET'])
 def index():
-    trip_event_list = [ t.as_json_dict() for t in TripEvent.select() ]
+    trip_event_list = [ t.as_dict() for t in TripEvent.select() ]
     result = jsonify({
         'data' : trip_event_list
     })
@@ -22,7 +22,7 @@ def show(id):
     found_trip = (selected_trip != None)
     return_dict = None
     if (found_trip):
-        selected_trip.as_json_dict()
+        selected_trip.as_dict()
     result = jsonify({
         'status' : found_trip,
         'data' : return_dict
@@ -40,7 +40,7 @@ def create():
 
     result = jsonify({
         'status' : True,
-        'data' : new_trip_event.as_json_dict()
+        'data' : new_trip_event.as_dict()
     })
     return result
 
@@ -67,7 +67,7 @@ def edit(id):
         selected_trip_event.date_time = data['date_time']
         selected_trip_event.location = data['location']
         selected_trip_event.save()
-        return_dict = selected_trip_event.as_json_dict()
+        return_dict = selected_trip_event.as_dict()
 
     result = jsonify({
         'status' : found_selected_trip,
@@ -78,7 +78,7 @@ def edit(id):
 @trip_events_api_blueprint.route('/<id>/files', methods=['GET'])
 def files(id):
     selected_files = FileAttachment.select().where(FileAttachment.parent_event == id)
-    file_list = [ f.as_json_dict() for f in selected_files ]
+    file_list = [ f.as_dict() for f in selected_files ]
     result = jsonify({
         'data' : file_list
     })
@@ -87,7 +87,7 @@ def files(id):
 @trip_events_api_blueprint.route('/<id>/photos', methods=['GET'])
 def photos(id):
     selected_photos = PhotoAttachment.select().where(PhotoAttachment.parent_event == id)
-    photo_list = [ f.as_json_dict() for f in selected_photos ]
+    photo_list = [ f.as_dict() for f in selected_photos ]
     result = jsonify({
         'data' : photo_list
     })

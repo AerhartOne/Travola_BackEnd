@@ -15,7 +15,7 @@ def index():
     trip_query = Trip.select()
     trip_list = []
     for t in trip_query:
-        trip_list.append( t.as_json_dict() )
+        trip_list.append( t.as_dict() )
 
     result = jsonify( {
         'data': trip_list
@@ -33,7 +33,7 @@ def create():
     )
     result = jsonify({
         'status': True,
-        'data' : new_trip.as_json_dict()
+        'data' : new_trip.as_dict()
     })
     return result
 
@@ -67,7 +67,7 @@ def add_user(trip_id):
 
     result = jsonify({
         'status' : successfully_created,
-        'data' : user_trip_object.as_json_dict()
+        'data' : user_trip_object.as_dict()
     })
     return result
 
@@ -88,7 +88,7 @@ def events(trip_id):
     selected_events = TripEvent.select().where(TripEvent.parent_trip_id == trip_id)
     event_list = []
     for e in selected_events:
-        event_list.append( e.as_json_dict() )
+        event_list.append( e.as_dict() )
     
     result = jsonify( {
         'data': event_list
