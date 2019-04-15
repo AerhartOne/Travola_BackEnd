@@ -7,7 +7,7 @@ class UserTrip(BaseModel):
     user = pw.ForeignKeyField(User, backref="users")
     trip = pw.ForeignKeyField(Trip, backref="trips")
 
-    def as_json_dict(self):
+    def as_dict(self):
         json_dict = {
             'user': self.user.id,
             'trip': self.trip.id

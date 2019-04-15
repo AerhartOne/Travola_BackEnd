@@ -51,7 +51,7 @@ def login():
 
     result = jsonify({
         'status' : True,
-        'data' : user.as_json_dict()
+        'data' : user.as_dict()
     })
 
     if not user:
@@ -76,7 +76,7 @@ def get_trips(id):
     trip = Trip.select().where(Trip.parent_user_id==id)
     trip_list = []
     for t in trip:
-        trip_list.append( t.as_json_dict() )
+        trip_list.append( t.as_dict() )
 
     result = jsonify( {
         'data': jsonify(trip_list)

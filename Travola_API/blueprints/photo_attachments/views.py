@@ -15,5 +15,5 @@ def event_files(id):
     selected_files = PhotoAttachment.select().where(PhotoAttachment.parent_event==id)
     file_list = []
     for f in selected_files:
-        file_list.append( f.as_json_dict() )
+        file_list.append( f.as_dict() )
     return jsonify(file_list)
