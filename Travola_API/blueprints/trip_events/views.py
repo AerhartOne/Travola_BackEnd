@@ -8,7 +8,7 @@ trip_events_api_blueprint = Blueprint('trip_events_api',
 
 @trip_events_api_blueprint.route('/', methods=['GET'])
 def index():
-    trip_event_list = jsonify( [ t.as_json_dict() for t in TripEvent.select() ] )
+    trip_event_list = [ t.as_json_dict() for t in TripEvent.select() ]
     result = jsonify({
         'data' : trip_event_list
     })
