@@ -91,6 +91,6 @@ def events(trip_id):
         event_list.append( e.as_json_dict() )
     
     result = jsonify( {
-        'data': jsonify(event_list)
+        'data': event_list
         } )
     return result
