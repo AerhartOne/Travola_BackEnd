@@ -35,24 +35,26 @@ for u in userlist:
             last_name=u['last_name']
         )
 
+
+
 # Trips
 from models.trip import Trip
 triplist =[
     {
         'trip_name' : 'Working in Europe',
-        'parent_user' : 1
+        'parent_user' : User.select().first().id
     },
     {
         'trip_name' : 'Guy Things',
-        'parent_user' : 2
+        'parent_user' : User.select().first().id + 1
     },
     {
         'trip_name' : 'Heroic Things',
-        'parent_user' : 2
+        'parent_user' : User.select().first().id + 1
     },
     {
         'trip_name' : 'Florida Trip',
-        'parent_user' : 3
+        'parent_user' : User.select().first().id + 2
     }
 ]
 
@@ -69,35 +71,36 @@ from datetime import datetime
 
 tripevent_list = [
     {
-        'parent_trip' : 1,
+        'parent_trip' : Trip.select().first().id,
         'date_time' : datetime(2019, 8, 12),
         'location' : 'Berlin'
     },
     {
-        'parent_trip' : 1,
+        'parent_trip' : Trip.select().first().id,
         'date_time' : datetime(2019, 7, 23),
         'location' : 'Frankfurt'
     },
     {
-        'parent_trip' : 2,
+        'parent_trip' : Trip.select().first().id + 1,
         'date_time' : datetime(2019, 4, 18),
         'location' : 'California'
     },
     {
-        'parent_trip' : 3,
+        'parent_trip' : Trip.select().first().id + 2,
         'date_time' : datetime(2019, 3, 22),
         'location' : 'Arizona'
     },
     {
-        'parent_trip' : 4,
+        'parent_trip' : Trip.select().first().id + 3,
         'date_time' : datetime(2019, 4, 2),
         'location' : 'Florida'
     }
 ]
 
 for te in tripevent_list:
-    TripEvent.create(
-        parent_trip=te['parent_trip'],
-        date_time=te['date_time'],
-        location=te['location']
-    )
+    if TripEvent.get_or_none(TripEvent.parent_trip == te['parent_trip']) == None:
+        TripEvent.create(
+            parent_trip=te['parent_trip'],
+            date_time=te['date_time'],
+            location=te['location']
+        )
