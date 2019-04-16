@@ -13,73 +13,74 @@ def index():
     return "USERS API"
 
 @users_api_blueprint.route('/<id>', methods=['GET'])
-def user_profile(id):
-    target_user = User[id]
-    user_as_json = jsonify(
-        id=target_user.id,
-        username=target_user.username,
-        email=target_user.email
-    )
-    return user_as_json
+def show(id):
+    target_user_object = User.get_or_none(User.id == id)
+    user_exists = (target_user_object != None)
+
+    result = jsonify({
+        'status' : user_exists,
+        'data' : target_user_object.as_dict()
+    })
+
+    return result
 
 ### CREATE USER 
 @users_api_blueprint.route('/', methods=['POST'])
-def create_user():
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    email = request.form['email'] 
-    username = request.form['username']
-    password = request.form['password']
-    re_password = request.form['re_password']
+def create():
+    if request.form['password'] == request.form['re_password']:
+        new_user = User(
+            first_name = request.form['first_name'],
+            last_name = request.form['last_name'],
+            email = request.form['email'] ,
+            username = request.form['username'],
+            password = request.form['password']
+            )
 
-    user = User(first_name=first_name, last_name=last_name, email=email, username=username, password=password)
+        if new_user.save():
+            login_user(new_user)
 
-    if user.save and password == re_password:
-        login_user(user)
-        # return jsonify({'status' : 'Successfully created user!'})
-        return jsonify({'status' : True})
-    else:
-        # return jsonify({'status' : 'Failed to create user'})
-        return jsonify({'status' : False})
+    successfully_created = (User.get_or_none( User.username ==  new_user.username ) != None)
+
+    result = jsonify({
+        'status' : successfully_created,
+        'data' : new_user.as_dict()
+    })
+    return result
 
 ### LOGIN USER
 @users_api_blueprint.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
-    user = User.get(User.username == username)
+
+    user_object = User.get_or_none(User.username == username)
+    user_found = (user_object != None)
+    logged_in = False
+    if user_object != None:
+        if password == user_object.password:
+            logged_in = login_user(user_object)
 
     result = jsonify({
-        'status' : True,
-        'data' : user.as_dict()
+        'status' : (user_found and logged_in),
+        'data' : user_object.as_dict()
     })
-
-    if not user:
-        # return jsonify({'status' : 'Incorrect username or password'})
-        return jsonify({'status' : False})
-    else:
-        if password == user.password:
-            login_user(user)
-            return result
-        else:
-            return jsonify({'status' : False})
+    return result
 
 ### LOGOUT USER
 @users_api_blueprint.route('/logout')
 def logout():
-    logout_user()
-    return jsonify({'status' : True})
+    return jsonify({
+        'status' : logout_user()
+    })
 
 ### SHOW TRIPS
 @users_api_blueprint.route('/<id>/trips', methods=['GET'])
-def get_trips(id):
-    trip = Trip.select().where(Trip.parent_user_id==id)
-    trip_list = []
-    for t in trip:
-        trip_list.append( t.as_dict() )
+def trips(id):
+    selected_trips = Trip.select().where(Trip.parent_user_id==id)
+    trip_list = [ t.as_dict() for t in selected_trips ]
 
     result = jsonify( {
-        'data': jsonify(trip_list)
+        'data': trip_list
     } )
     return result
 
