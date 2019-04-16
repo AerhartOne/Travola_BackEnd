@@ -3,7 +3,7 @@ from flask.json import jsonify
 from flask_login import current_user
 from models.trip import Trip
 from models.trip_event import TripEvent
-from models.user_trips import UserTrip
+from models.user_trip import UserTrip
 from models.user import User
 
 trips_api_blueprint = Blueprint('trips_api',
