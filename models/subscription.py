@@ -4,5 +4,5 @@ from models.payment import Payment
 from models.user import User
 
 class Subscription(BaseModel):
-    for_user = pw.ForeignKeyField(User, backref="users")
-    payment = pw.ForeignKeyField(Payment, backref="payments")
+    for_user = pw.ForeignKeyField(User, backref="subscriptions")
+    payment = pw.ForeignKeyField(Payment, backref="subscriptions")
