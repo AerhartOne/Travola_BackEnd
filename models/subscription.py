@@ -10,7 +10,7 @@ class Subscription(BaseModel):
     def as_dict(self):
         json_dict = {
             'id' : self.id,
-            'for_user' : self.for_user,
-            'payment' : self.payment,
+            'for_user' : self.for_user.id,
+            'payment' : self.payment.id,
         }
         return json_dict

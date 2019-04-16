@@ -92,12 +92,13 @@ def trips(id):
 @users_api_blueprint.route('/<id>/subscriptions', methods=['GET'])
 def subscriptions(id):
     subscriptions = Subscription.select().where(Subscription.for_user == id)
-    subscription_active = ( len( subscriptions ) > 0 )
     subscription_list = []
 
     for s in subscriptions:
-        if (date.today - date.fromtimestamp(s.created_at) <= 30):
+        if (datetime.now().timestamp() - s.created_at.timestamp() <= (60 * 60 * 24 * 30) ):
             subscription_list.append( s.as_dict() )
+
+    subscription_active = ( len( subscription_list ) > 0 )
 
     result = jsonify({
         'data' : {
