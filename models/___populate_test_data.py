@@ -178,3 +178,39 @@ for pa in photo_list:
             parent_event = pa['parent_event'],
             url = pa['url']
         )
+
+# Payments
+from models.payment import Payment
+import decimal
+
+payment_list = [
+    {
+        'amount' : 50.00,
+        'payment_nonce' : 'abcde'
+    }
+]
+
+for py in payment_list:
+    if Payment.get_or_none(Payment.amount == py['amount'] & Payment.payment_nonce == py['payment_nonce']) == None:
+        Payment.create(
+            amount = py['amount'],
+            payment_nonce = py['payment_nonce']
+        )
+
+
+# Subscriptions
+from models.subscription import Subscription
+
+subscription_list = [
+    {
+        'for_user' : User.select().first().id + 1,
+        'payment' : Payment.select().first().id
+    }
+]
+
+for sb in subscription_list:
+    if Subscription.get_or_none(Subscription.for_user == sb['for_user'] & Subscription.payment == sb['payment']) == None:
+        Subscription.create(
+            for_user=sb['for_user'],
+            payment=sb['payment']
+        )
