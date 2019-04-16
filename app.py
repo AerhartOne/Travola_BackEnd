@@ -11,7 +11,7 @@ web_dir = os.path.join(os.path.dirname(
 app = Flask('Travola', root_path=web_dir)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
-csrf = CSRFProtect(app)
+# csrf = CSRFProtect(app)
 
 if os.getenv('FLASK_ENV') == 'production':
     app.config.from_object("config.ProductionConfig")
