@@ -185,18 +185,16 @@ import decimal
 
 payment_list = [
     {
-        'amount' : 50.00,
+        'amount' : 50,
         'payment_nonce' : 'abcde'
     }
 ]
 
 for py in payment_list:
-    if Payment.get_or_none(Payment.amount == py['amount'] & Payment.payment_nonce == py['payment_nonce']) == None:
-        Payment.create(
-            amount = py['amount'],
-            payment_nonce = py['payment_nonce']
-        )
-
+    Payment.create(
+        amount = py['amount'],
+        payment_nonce = py['payment_nonce']
+    )
 
 # Subscriptions
 from models.subscription import Subscription
@@ -209,8 +207,7 @@ subscription_list = [
 ]
 
 for sb in subscription_list:
-    if Subscription.get_or_none(Subscription.for_user == sb['for_user'] & Subscription.payment == sb['payment']) == None:
-        Subscription.create(
-            for_user=sb['for_user'],
-            payment=sb['payment']
-        )
+    Subscription.create(
+        for_user=sb['for_user'],
+        payment=sb['payment']
+    )
