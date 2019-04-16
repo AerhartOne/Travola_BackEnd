@@ -22,6 +22,16 @@ def index():
         } )
     return result
 
+@trips_api_blueprint.route('/<id>/show', methods=['GET'])
+def show(id):
+    trip = Trip.get_or_none(Trip.id==id)
+    trip_found = trip != None
+    result = jsonify({
+        'status': trip_found,
+        'data' : trip.as_dict()
+    })
+    return result
+
 # Creates a new Trip object and saves it to the DB.
 # Doesn't yet have any validation for trip_name.
 # Doesn't yet validate if a user is logged in.
