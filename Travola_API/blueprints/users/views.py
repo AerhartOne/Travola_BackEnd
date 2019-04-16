@@ -1,6 +1,9 @@
 from flask import Blueprint, request, flash
+from datetime import datetime
+from datetime import date
 from models.user import User
 from models.trip import Trip
+from models.subscription import Subscription
 from flask.json import jsonify
 from flask_login import login_user, logout_user, current_user
 
@@ -86,3 +89,20 @@ def trips(id):
     } )
     return result
 
+@users_api_blueprint.route('/<id>/subscriptions', methods=['GET'])
+def subscriptions(id):
+    subscriptions = Subscription.select().where(Subscription.for_user == id)
+    subscription_active = ( len( subscriptions ) > 0 )
+    subscription_list = []
+
+    for s in subscriptions:
+        if (date.today - date.fromtimestamp(s.created_at) <= 30):
+            subscription_list.append( s.as_dict() )
+
+    result = jsonify({
+        'data' : {
+            'subscription_is_active' : subscription_active,
+            'subscriptions' : subscription_list
+        }
+    })
+    return result
