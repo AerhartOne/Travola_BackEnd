@@ -59,10 +59,12 @@ def login():
     if user_object != None:
         if password == user_object.password:
             logged_in = login_user(user_object)
+        else:
+            user_object = None
 
     result = jsonify({
         'status' : (user_found and logged_in),
-        'data' : user_object.as_dict()
+        'data' : user_object.as_dict(),
     })
     return result
 
