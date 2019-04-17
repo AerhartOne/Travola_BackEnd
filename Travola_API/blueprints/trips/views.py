@@ -38,8 +38,8 @@ def show(id):
 @trips_api_blueprint.route('/new', methods=['POST'])
 def create():
     new_trip = Trip.create(
-        trip_name=request['trip_name'],
-        parent_user=current_user.id
+        trip_name=request.form['trip_name'],
+        parent_user=request.form['user_id']
     )
     result = jsonify({
         'status': True,
