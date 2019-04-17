@@ -6,6 +6,7 @@ from models.trip import Trip
 from models.subscription import Subscription
 from flask.json import jsonify
 from flask_login import login_user, logout_user, current_user
+from flask_jwt import JWT, jwt_required, current_identity
 
 users_api_blueprint = Blueprint('users_api',
                              __name__,
