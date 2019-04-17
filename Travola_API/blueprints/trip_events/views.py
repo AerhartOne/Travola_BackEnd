@@ -3,6 +3,7 @@ from flask.json import jsonify
 from models.trip_event import TripEvent
 from models.file_attachment import FileAttachment
 from models.photo_attachment import PhotoAttachment
+import Travola_API.utils.trip_event_notify_helper
 
 trip_events_api_blueprint = Blueprint('trip_events_api',
                              __name__,
