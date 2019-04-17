@@ -30,17 +30,16 @@ def show(id):
 ### CREATE USER 
 @users_api_blueprint.route('/', methods=['POST'])
 def create():
-    if request.form['password'] == request.form['re_password']:
-        new_user = User(
-            first_name = request.form['first_name'],
-            last_name = request.form['last_name'],
-            email = request.form['email'] ,
-            username = request.form['username'],
-            password = request.form['password']
-            )
+    new_user = User(
+        first_name = request.form['first_name'],
+        last_name = request.form['last_name'],
+        email = request.form['email'] ,
+        username = request.form['username'],
+        password = request.form['password']
+        )
 
-        if new_user.save():
-            login_user(new_user)
+    if new_user.save():
+        login_user(new_user)
 
     successfully_created = (User.get_or_none( User.username ==  new_user.username ) != None)
 

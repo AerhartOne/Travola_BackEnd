@@ -5,11 +5,13 @@ from app import app
 
 ### USER MODEL
 class User(UserMixin, BaseModel):
-    first_name = pw.CharField(unique=False, null=False)
-    last_name = pw.CharField(unique=False, null=False)
-    email = pw.CharField(unique=True, index=True)
     username = pw.CharField(unique=True, index=True)
     password = pw.CharField(index=True)
+    email = pw.CharField(unique=True, index=True)
+    first_name = pw.CharField(unique=False, null=False)
+    last_name = pw.CharField(unique=False, null=False)
+    bio_text = pw.TextField(unique=False, null=True)
+    avatar_url = pw.TextField(unique=False, null=True)
 
     def validate(self):
         if len(self.password) < 6:
@@ -22,9 +24,11 @@ class User(UserMixin, BaseModel):
     def as_dict(self):
         json_dict = {
             'id' : self.id,
+            'username' : self.username,
+            'email' : self.email,
             'first_name' : self.first_name,
             'last_name' : self.last_name,
-            'email' : self.email,
-            'username' : self.username
+            'bio_text' : self.bio_text,
+            'avatar_url' : self.avatar_url
         }
         return json_dict

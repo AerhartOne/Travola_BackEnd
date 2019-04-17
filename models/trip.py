@@ -3,14 +3,17 @@ import peewee as pw
 from models.user import User
 
 class Trip(BaseModel):
-    trip_name = pw.CharField(unique=False, null=False)
     parent_user = pw.ForeignKeyField(User, backref='trips', unique=False, on_delete='CASCADE', index=True)
+    trip_name = pw.CharField(unique=False, null=False)
+    trip_img_url = pw.TextField(unique=False, null=True)
+
     
     def as_dict(self):
         json_dict = {
             'id' : self.id,
-            'trip_name': self.trip_name,
-            'parent_user': self.parent_user.id
+            'parent_user' : self.parent_user.id,
+            'trip_name' : self.trip_name,
+            'trip_img_url' : self.trip_img_url
         }
         return json_dict
     
