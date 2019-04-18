@@ -5,6 +5,7 @@ from models.trip import Trip
 from models.trip_event import TripEvent
 from models.user_trip import UserTrip
 from models.user import User
+from Travola_API.utils.AWSHelper import upload_to_s3, S3_BUCKET
 
 trips_api_blueprint = Blueprint('trips_api',
                              __name__,
@@ -39,8 +40,16 @@ def show(id):
 def create():
     new_trip = Trip.create(
         trip_name=request.form['trip_name'],
-        parent_user=request.form['user_id']
+        parent_user=request.form['user_id'],
+        trip_desc=request.form['trip_desc']
     )
+
+    if request.files['trip_img']:
+        uploaded_img = request.files['trip_img']
+        upload_to_s3(uploaded_img, S3_BUCKET, f'trip_display_imgs/{new_trip.id}/' )
+        new_trip.trip_img_url = f'{new_trip.id}/{uploaded_img.filename}'
+        new_trip.save()
+
     result = jsonify({
         'status': True,
         'data' : new_trip.as_dict()
