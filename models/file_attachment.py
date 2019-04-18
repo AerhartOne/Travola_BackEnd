@@ -1,7 +1,7 @@
 from models.base_model import BaseModel
 from models.trip_event import TripEvent
+from app import app
 import peewee as pw
-from Travola_API.utils.AWSHelper import S3_LOCATION
 
 class FileAttachment(BaseModel):
     parent_event = pw.ForeignKeyField(TripEvent, backref="file_attachments")
@@ -16,4 +16,4 @@ class FileAttachment(BaseModel):
         return json_dict
     
     def s3_url(self):
-        return S3_LOCATION + "files/" + self.filepath
+        return app.config['S3_LOCATION'] + "files/" + self.filepath
