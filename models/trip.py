@@ -15,6 +15,7 @@ class Trip(BaseModel):
             'parent_user' : self.parent_user.id,
             'trip_name' : self.trip_name,
             'trip_img_url' : self.trip_img_url,
+            's3_img_url' : self.s3_img_url(),
             'trip_desc' : self.trip_desc
         }
         return json_dict
