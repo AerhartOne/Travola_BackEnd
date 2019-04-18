@@ -14,7 +14,11 @@ users_api_blueprint = Blueprint('users_api',
 
 @users_api_blueprint.route('/', methods=['GET'])
 def index():
-    return "USERS API"
+    selected_users = User.select()
+    result = jsonify({
+        'data' : [u.as_dict() for u in selected_users]
+    })
+    return result
 
 @users_api_blueprint.route('/<id>', methods=['GET'])
 def show(id):
