@@ -46,7 +46,7 @@ def create():
 
     if request.files['trip_img']:
         uploaded_img = request.files['trip_img']
-        upload_to_s3(uploaded_img, S3_BUCKET, f'trip_display_imgs/{new_trip.id}/' )
+        upload_to_s3(uploaded_img, S3_BUCKET, f'trip_display_imgs/{new_trip.id}' )
         new_trip.trip_img_url = f'{new_trip.id}/{uploaded_img.filename}'
         new_trip.save()
 
