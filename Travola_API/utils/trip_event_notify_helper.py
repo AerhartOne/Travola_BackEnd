@@ -21,5 +21,3 @@ def notify_events( event_list ):
 
 def send_notifications( target_trip_event ):
     print(f"Sending notifications to {target_trip_event.parent_trip.parent_user.email}")
-
-notification_check_loop(300)
