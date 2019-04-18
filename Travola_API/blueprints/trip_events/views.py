@@ -3,6 +3,7 @@ from flask.json import jsonify
 from models.trip_event import TripEvent
 from models.file_attachment import FileAttachment
 from models.photo_attachment import PhotoAttachment
+from Travola_API.utils.AWSHelper import upload_to_s3, S3_BUCKET
 
 trip_events_api_blueprint = Blueprint('trip_events_api',
                              __name__,
@@ -92,3 +93,53 @@ def photos(id):
         'data' : photo_list
     })
     return result
+
+@trip_events_api_blueprint.route('/<id>/files/new', methods=['POST'])
+def new_file(id):
+    trip_event = TripEvent.get_or_none(TripEvent.id == id)
+    new_file = None
+
+    if trip_event and request.files['photo']:
+        uploaded_file = request.files['photo']
+        parent_trip = trip_event.parent_trip
+        parent_user = parent_trip.parent_user
+
+        upload_to_s3(uploaded_file, S3_BUCKET, f'photos/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
+        new_file = FileAttachment.create(
+            filepath = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_file.filename}",
+            parent_user = parent_user.id
+        )    
+
+    file_uploaded = (new_file != None)
+
+    result = jsonify({
+        'status' : file_uploaded,
+        'data' : new_file.as_dict()
+    })
+    return result
+
+
+@trip_events_api_blueprint.route('/<id>/photos/new', methods=['POST'])
+def new_photo(id):
+    trip_event = TripEvent.get_or_none(TripEvent.id == id)
+    new_photo = None
+
+    if trip_event and request.files['photo']:
+        uploaded_photo = request.files['photo']
+        parent_trip = trip_event.parent_trip
+        parent_user = parent_trip.parent_user
+
+        upload_to_s3(uploaded_photo, S3_BUCKET, f'photos/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
+        new_photo = PhotoAttachment.create(
+            filepath = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_photo.filename}",
+            parent_user = parent_user.id
+        )    
+
+    photo_uploaded = (new_photo != None)
+
+    result = jsonify({
+        'status' : photo_uploaded,
+        'data' : new_photo.as_dict()
+    })
+    return result
+
