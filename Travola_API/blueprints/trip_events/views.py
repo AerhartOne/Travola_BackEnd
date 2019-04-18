@@ -106,7 +106,7 @@ def new_file(id):
 
         upload_to_s3(uploaded_file, S3_BUCKET, f'photos/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
         new_file = FileAttachment.create(
-            filepath = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_file.filename}",
+            url = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_file.filename}",
             parent_user = parent_user.id
         )    
 
@@ -131,7 +131,7 @@ def new_photo(id):
 
         upload_to_s3(uploaded_photo, S3_BUCKET, f'photos/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
         new_photo = PhotoAttachment.create(
-            filepath = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_photo.filename}",
+            url = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_photo.filename}",
             parent_user = parent_user.id
         )    
 
