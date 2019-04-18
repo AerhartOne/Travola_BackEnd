@@ -29,6 +29,10 @@ class User(UserMixin, BaseModel):
             'first_name' : self.first_name,
             'last_name' : self.last_name,
             'bio_text' : self.bio_text,
-            'avatar_url' : self.avatar_url
+            'avatar_url' : self.avatar_url,
+            's3_avatar_url' : self.s3_avatar_url()
         }
         return json_dict
+
+    def s3_avatar_url(self):
+        return app.config['S3_LOCATION'] + "user_avatars/" + self.avatar_url
