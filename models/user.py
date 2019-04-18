@@ -35,4 +35,7 @@ class User(UserMixin, BaseModel):
         return json_dict
 
     def s3_avatar_url(self):
-        return app.config['S3_LOCATION'] + "user_avatars/" + self.avatar_url
+        url = ""
+        if (self.avatar_url != None):
+            url = self.avatar_url
+        return app.config['S3_LOCATION'] + "user_avatars/" + url

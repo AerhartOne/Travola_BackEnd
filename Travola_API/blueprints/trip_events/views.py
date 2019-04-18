@@ -36,7 +36,8 @@ def create():
     new_trip_event = TripEvent.create(
         parent_trip = data['parent_trip'],
         date_time = data['date_time'],
-        location = data['location']
+        location = data['location'],
+        desc = data['desc']
     )
 
     result = jsonify({
