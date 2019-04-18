@@ -21,4 +21,7 @@ class Trip(BaseModel):
         return json_dict
     
     def s3_img_url(self):
-        return app.config['S3_LOCATION'] + "trip_display_imgs/" + self.trip_img_url
+        url = ""
+        if (self.trip_img_url != None):
+            url = self.trip_img_url
+        return app.config['S3_LOCATION'] + "trip_display_imgs/" + url
