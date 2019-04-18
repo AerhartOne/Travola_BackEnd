@@ -41,7 +41,8 @@ def create():
     new_trip = Trip.create(
         trip_name=request.form['trip_name'],
         parent_user=request.form['user_id'],
-        trip_desc=request.form['trip_desc']
+        trip_desc=request.form['trip_desc'],
+        trip_img_url=""
     )
 
     if request.files['trip_img']:
