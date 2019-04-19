@@ -4,6 +4,7 @@ from models.trip_event import TripEvent
 from models.file_attachment import FileAttachment
 from models.photo_attachment import PhotoAttachment
 from Travola_API.utils.AWSHelper import upload_to_s3, S3_BUCKET
+from flask_jwt_extended import jwt_required
 
 trip_events_api_blueprint = Blueprint('trip_events_api',
                              __name__,
@@ -31,6 +32,7 @@ def show(id):
     return result
 
 @trip_events_api_blueprint.route('/new', methods=['POST'])
+# @jwt_required
 def create():
     data = request.form
     new_trip_event = TripEvent.create(

@@ -6,6 +6,7 @@ from models.trip_event import TripEvent
 from models.user_trip import UserTrip
 from models.user import User
 from Travola_API.utils.AWSHelper import upload_to_s3, S3_BUCKET
+from flask_jwt_extended import jwt_required
 
 trips_api_blueprint = Blueprint('trips_api',
                              __name__,
@@ -37,6 +38,7 @@ def show(id):
 # Doesn't yet have any validation for trip_name.
 # Doesn't yet validate if a user is logged in.
 @trips_api_blueprint.route('/new', methods=['POST'])
+# @jwt_required
 def create():
     new_trip = Trip.create(
         trip_name=request.form['trip_name'],
@@ -45,7 +47,7 @@ def create():
         trip_img_url=""
     )
 
-    if request.files['trip_img']:
+    if 'trip_img' in request.files:
         uploaded_img = request.files['trip_img']
         upload_to_s3(uploaded_img, S3_BUCKET, f'trip_display_imgs/{new_trip.id}' )
         new_trip.trip_img_url = f'{new_trip.id}/{uploaded_img.filename}'

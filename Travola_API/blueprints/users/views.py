@@ -6,7 +6,9 @@ from models.trip import Trip
 from models.subscription import Subscription
 from flask.json import jsonify
 from flask_login import login_user, logout_user, current_user
-from flask_jwt import JWT, jwt_required, current_identity
+from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
+import Travola_API.utils.jwt_helper
+from flask_jwt_extended import jwt_required
 
 users_api_blueprint = Blueprint('users_api',
                              __name__,
@@ -63,15 +65,23 @@ def login():
     user_object = User.get_or_none(User.username == username)
     user_found = (user_object != None)
     logged_in = False
+
+    access_token = None
+    refresh_token = None
+
     if user_object != None:
         if password == user_object.password:
             logged_in = login_user(user_object)
+            access_token = create_access_token(identity=user_object.as_dict())
+            refresh_token = create_refresh_token(identity=user_object.as_dict())
         else:
             user_object = None
 
     result = jsonify({
         'status' : (user_found and logged_in),
         'data' : user_object.as_dict(),
+        'access_token' : access_token,
+        'refresh_token' : refresh_token
     })
     return result
 
