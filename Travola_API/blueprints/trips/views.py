@@ -63,6 +63,7 @@ def create():
 # Doesn't yet have any validation for trip_name.
 # Doesn't yet validate if a user is logged in.
 @trips_api_blueprint.route('/delete', methods=['POST'])
+@jwt_required
 def delete():
     deletion_id = int( request.form['trip_id'] )
     Trip.delete().where(
