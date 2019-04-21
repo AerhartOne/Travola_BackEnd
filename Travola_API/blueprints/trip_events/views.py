@@ -50,11 +50,12 @@ def create():
     return result
 
 @trip_events_api_blueprint.route('/delete', methods=['POST'])
+@jwt_required
 def delete():
-    id_to_delete = request.form['id']
-    TripEvent.delete().where(TripEvent.id == id_to_delete)
+    id_to_delete = request.form['trip_event_id']
+    TripEvent.delete().where(TripEvent.id == id_to_delete).execute()
 
-    trip_deleted = TripEvent.get_or_none(id_to_delete) == None
+    trip_deleted = TripEvent.get_or_none(TripEvent.id == id_to_delete) == None
 
     result = jsonify({
         'status' : trip_deleted,

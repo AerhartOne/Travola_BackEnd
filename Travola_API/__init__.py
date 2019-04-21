@@ -1,5 +1,6 @@
 from app import app
 from flask_cors import CORS
+import Travola_API.utils.trip_event_notify_helper
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 

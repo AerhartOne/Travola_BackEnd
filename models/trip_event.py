@@ -8,6 +8,7 @@ class TripEvent(BaseModel):
     date_time = pw.DateTimeField(unique=False, null=False)
     location = pw.CharField(unique=False, null=True)
     desc = pw.TextField(unique=False, null=True)
+    notification_sent = pw.BooleanField(unique=False, null=False, default=False)
 
     def as_dict(self):
         json_dict = {
@@ -16,6 +17,7 @@ class TripEvent(BaseModel):
             'parent_trip': self.parent_trip.id,
             'date_time': self.date_time,
             'location': self.location,
-            'desc': self.desc
+            'desc': self.desc,
+            'notification_sent': self.notification_sent
         }
         return json_dict
