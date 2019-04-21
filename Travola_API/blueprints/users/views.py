@@ -9,6 +9,7 @@ from flask_login import login_user, logout_user, current_user
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 import Travola_API.utils.jwt_helper
 from flask_jwt_extended import jwt_required
+from werkzeug.security import generate_password_hash, check_password_hash
 
 users_api_blueprint = Blueprint('users_api',
                              __name__,
@@ -37,12 +38,13 @@ def show(id):
 ### CREATE USER 
 @users_api_blueprint.route('/', methods=['POST'])
 def create():
+    hashed_password = generate_password_hash(request.form['password'])
     new_user = User(
         first_name = request.form['first_name'],
         last_name = request.form['last_name'],
         email = request.form['email'] ,
         username = request.form['username'],
-        password = request.form['password']
+        password = hashed_password
         )
 
     if new_user.save():
@@ -70,7 +72,7 @@ def login():
     refresh_token = None
 
     if user_object != None:
-        if password == user_object.password:
+        if check_password_hash(user_object.password, password):
             logged_in = login_user(user_object)
             access_token = create_access_token(identity=user_object.as_dict())
             refresh_token = create_refresh_token(identity=user_object.as_dict())
