@@ -4,6 +4,7 @@ from models.trip import Trip
 
 class TripEvent(BaseModel):
     parent_trip = pw.ForeignKeyField(Trip, backref='trip_events', unique=False, on_delete='CASCADE')
+    event_name = pw.CharField(unique=False, null=False, default="Unnamed Event")
     date_time = pw.DateTimeField(unique=False, null=False)
     location = pw.CharField(unique=False, null=True)
     desc = pw.TextField(unique=False, null=True)
@@ -11,6 +12,7 @@ class TripEvent(BaseModel):
     def as_dict(self):
         json_dict = {
             'id': self.id,
+            'event_name': self.event_name,
             'parent_trip': self.parent_trip.id,
             'date_time': self.date_time,
             'location': self.location,

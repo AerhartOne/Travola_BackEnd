@@ -37,6 +37,7 @@ def create():
     data = request.form
     new_trip_event = TripEvent.create(
         parent_trip = data['parent_trip'],
+        event_name = data['event_name'],
         date_time = data['date_time'],
         location = data['location'],
         desc = data['desc']
@@ -68,6 +69,7 @@ def edit(id):
     return_dict = None
     if (found_selected_trip):
         selected_trip_event.parent_trip = data['parent_trip']
+        selected_trip_event.event_name = data['event_name']
         selected_trip_event.date_time = data['date_time']
         selected_trip_event.location = data['location']
         selected_trip_event.save()
