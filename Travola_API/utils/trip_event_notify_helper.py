@@ -25,8 +25,14 @@ def send_notifications( target_trip_event ):
     target_trip_event.notification_sent = True
     target_trip_event.save()
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=notification_check, trigger='interval', seconds=10, start_date=datetime.now() + timedelta(0, 10))
+scheduler = BackgroundScheduler({
+    'apscheduler.job_defaults.max_instances': 1,
+    'apscheduler.executors.default': {
+        'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
+        'max_workers': '1'
+    },
+})
+scheduler.add_job(func=notification_check, trigger='interval', minutes=5, start_date=datetime.now() + timedelta(0, 10))
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
