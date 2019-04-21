@@ -38,7 +38,7 @@ def show(id):
 # Doesn't yet have any validation for trip_name.
 # Doesn't yet validate if a user is logged in.
 @trips_api_blueprint.route('/new', methods=['POST'])
-# @jwt_required
+@jwt_required
 def create():
     new_trip = Trip.create(
         trip_name=request.form['trip_name'],

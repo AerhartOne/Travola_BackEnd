@@ -32,7 +32,7 @@ def show(id):
     return result
 
 @trip_events_api_blueprint.route('/new', methods=['POST'])
-# @jwt_required
+@jwt_required
 def create():
     data = request.form
     new_trip_event = TripEvent.create(
