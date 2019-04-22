@@ -68,8 +68,9 @@ def edit():
     target_user.last_name = received_data['last_name']
     target_user.bio_text = received_data['bio_text']
 
-    hashed_password = generate_password_hash(received_data['password'])
-    target_user.password = hashed_password
+    if (received_data['password'] != ''):
+        hashed_password = generate_password_hash(received_data['password'])
+        target_user.password = hashed_password
 
     if target_user.save():
         successfully_edited = True
@@ -95,7 +96,7 @@ def login():
 
     return_data = None
 
-    if user_object != None:
+    if user_found:
         if check_password_hash(user_object.password, password):
             access_token = create_access_token(identity=user_object.as_dict())
             refresh_token = create_refresh_token(identity=user_object.as_dict())
