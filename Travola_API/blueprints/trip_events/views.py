@@ -69,7 +69,6 @@ def edit(id):
     found_selected_trip = (selected_trip_event != None)
     return_dict = None
     if (found_selected_trip):
-        selected_trip_event.parent_trip = data['parent_trip']
         selected_trip_event.event_name = data['event_name']
         selected_trip_event.date_time = data['date_time']
         selected_trip_event.location = data['location']
