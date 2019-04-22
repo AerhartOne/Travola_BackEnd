@@ -72,6 +72,7 @@ def edit(id):
         selected_trip_event.event_name = data['event_name']
         selected_trip_event.date_time = data['date_time']
         selected_trip_event.location = data['location']
+        selected_trip_event.desc = data['desc']
         selected_trip_event.save()
         return_dict = selected_trip_event.as_dict()
 

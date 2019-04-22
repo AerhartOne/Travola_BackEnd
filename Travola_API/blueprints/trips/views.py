@@ -108,7 +108,7 @@ def remove_user(trip_id):
 
 @trips_api_blueprint.route('/<trip_id>/events', methods=['GET'])
 def events(trip_id):
-    selected_events = TripEvent.select().where(TripEvent.parent_trip_id == trip_id)
+    selected_events = TripEvent.select().where(TripEvent.parent_trip_id == trip_id).order_by(TripEvent.date_time.desc())
     event_list = []
     for e in selected_events:
         event_list.append( e.as_dict() )
