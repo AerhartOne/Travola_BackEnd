@@ -105,8 +105,8 @@ def new_file(id):
     trip_event = TripEvent.get_or_none(TripEvent.id == id)
     new_file = None
 
-    if trip_event and request.files['photo']:
-        uploaded_file = request.files['photo']
+    if trip_event and request.files['file']:
+        uploaded_file = request.files['file']
         parent_trip = trip_event.parent_trip
         parent_user = parent_trip.parent_user
 
