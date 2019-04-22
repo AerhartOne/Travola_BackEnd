@@ -16,4 +16,4 @@ class FileAttachment(BaseModel):
         return json_dict
     
     def s3_url(self):
-        return app.config['S3_LOCATION'] + "files/" + self.filepath
+        return app.config['S3_LOCATION'] + "files/" + self.url
