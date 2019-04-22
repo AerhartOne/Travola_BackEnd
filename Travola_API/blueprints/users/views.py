@@ -59,13 +59,16 @@ def create():
 @users_api_blueprint.route('/edit', methods=['POST'])
 @jwt_required
 def edit():
-    target_user = User.get_or_none( User.id==request.form['user_id'] )
-    hashed_password = generate_password_hash(request.form['password'])
+    received_data = request.form
+    target_user = User.get_or_none( User.id==received_data['user_id'] )
 
-    target_user.first_name = request.form['first_name']
-    target_user.last_name = request.form['last_name']
-    target_user.email = request.form['email'] 
-    target_user.username = request.form['username']
+    target_user.username = received_data['username']
+    target_user.email = received_data['email']
+    target_user.first_name = received_data['first_name']
+    target_user.last_name = received_data['last_name']
+    target_user.bio_text = received_data['bio_text']
+
+    hashed_password = generate_password_hash(received_data['password'])
     target_user.password = hashed_password
 
     if target_user.save():
