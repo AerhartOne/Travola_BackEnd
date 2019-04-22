@@ -97,6 +97,7 @@ def login():
         if check_password_hash(user_object.password, password):
             access_token = create_access_token(identity=user_object.as_dict())
             refresh_token = create_refresh_token(identity=user_object.as_dict())
+            logged_in = True
         else:
             user_object = None
 
