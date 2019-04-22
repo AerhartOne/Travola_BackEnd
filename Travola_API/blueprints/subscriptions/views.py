@@ -31,7 +31,8 @@ def new():
             }
         } )
         
-        if transaction.is_success or transaction.transaction:
+        print(transaction)
+        if transaction:
             new_payment = Payment.create(
                 amount=subscription_amount,
                 payment_nonce=payment_nonce
@@ -44,9 +45,13 @@ def new():
 
             payment_succeeded = True
     
+    return_data = None
+    if new_subscription:
+        return_data = new_subscription.as_dict()
+
     result = jsonify({
         'status' : payment_succeeded,
-        'data' : new_subscription.as_dict()
+        'data' : return_data
     })
 
     return result
