@@ -110,10 +110,10 @@ def new_file(id):
         parent_trip = trip_event.parent_trip
         parent_user = parent_trip.parent_user
 
-        upload_to_s3(uploaded_file, S3_BUCKET, f'photos/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
+        upload_to_s3(uploaded_file, S3_BUCKET, f'files/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
         new_file = FileAttachment.create(
             url = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_file.filename}",
-            parent_user = parent_user.id
+            parent_event = trip_event.id
         )    
 
     file_uploaded = (new_file != None)
@@ -138,7 +138,7 @@ def new_photo(id):
         upload_to_s3(uploaded_photo, S3_BUCKET, f'photos/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
         new_photo = PhotoAttachment.create(
             url = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_photo.filename}",
-            parent_user = parent_user.id
+            parent_event = trip_event.id
         )    
 
     photo_uploaded = (new_photo != None)
