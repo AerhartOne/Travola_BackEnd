@@ -9,7 +9,7 @@ subscriptions_api_blueprint = Blueprint('subscriptions_api',
                              __name__,
                              template_folder='templates')
 
-@subscriptions_api_blueprint.route('/token', methods=['POST'])
+@subscriptions_api_blueprint.route('/token', methods=['GET'])
 def token():
     return generate_client_token()
 
