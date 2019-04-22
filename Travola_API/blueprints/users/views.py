@@ -5,10 +5,9 @@ from models.user import User
 from models.trip import Trip
 from models.subscription import Subscription
 from flask.json import jsonify
-from flask_login import login_user, logout_user, current_user
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 import Travola_API.utils.jwt_helper
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 users_api_blueprint = Blueprint('users_api',
@@ -39,6 +38,7 @@ def show(id):
 @users_api_blueprint.route('/', methods=['POST'])
 def create():
     hashed_password = generate_password_hash(request.form['password'])
+
     new_user = User(
         first_name = request.form['first_name'],
         last_name = request.form['last_name'],
@@ -46,15 +46,34 @@ def create():
         username = request.form['username'],
         password = hashed_password
         )
-
-    if new_user.save():
-        login_user(new_user)
+    new_user.save()
 
     successfully_created = (User.get_or_none( User.username ==  new_user.username ) != None)
 
     result = jsonify({
         'status' : successfully_created,
         'data' : new_user.as_dict()
+    })
+    return result
+
+@users_api_blueprint.route('/edit', methods=['POST'])
+@jwt_required
+def edit():
+    target_user = User.get_or_none( User.id==request.form['user_id'] )
+    hashed_password = generate_password_hash(request.form['password'])
+
+    target_user.first_name = request.form['first_name']
+    target_user.last_name = request.form['last_name']
+    target_user.email = request.form['email'] 
+    target_user.username = request.form['username']
+    target_user.password = hashed_password
+
+    if target_user.save():
+        successfully_edited = True
+
+    result = jsonify({
+        'status' : successfully_edited,
+        'data' : target_user.as_dict()
     })
     return result
 
@@ -73,7 +92,6 @@ def login():
 
     if user_object != None:
         if check_password_hash(user_object.password, password):
-            logged_in = login_user(user_object)
             access_token = create_access_token(identity=user_object.as_dict())
             refresh_token = create_refresh_token(identity=user_object.as_dict())
         else:
@@ -91,7 +109,7 @@ def login():
 @users_api_blueprint.route('/logout')
 def logout():
     return jsonify({
-        'status' : logout_user()
+        'status' : True
     })
 
 ### SHOW TRIPS
