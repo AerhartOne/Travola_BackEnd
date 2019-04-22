@@ -53,6 +53,8 @@ def create():
 @jwt_required
 def delete():
     id_to_delete = request.form['trip_event_id']
+    FileAttachment.delete().where(FileAttachment.parent_event == id_to_delete).execute()
+    PhotoAttachment.delete().where(PhotoAttachment.parent_event == id_to_delete).execute()
     TripEvent.delete().where(TripEvent.id == id_to_delete).execute()
 
     trip_deleted = TripEvent.get_or_none(TripEvent.id == id_to_delete) == None
@@ -105,7 +107,7 @@ def new_file(id):
     trip_event = TripEvent.get_or_none(TripEvent.id == id)
     new_file = None
 
-    if trip_event and request.files['file']:
+    if trip_event and 'file' in request.files:
         uploaded_file = request.files['file']
         parent_trip = trip_event.parent_trip
         parent_user = parent_trip.parent_user
@@ -113,14 +115,18 @@ def new_file(id):
         upload_to_s3(uploaded_file, S3_BUCKET, f'files/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
         new_file = FileAttachment.create(
             url = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_file.filename}",
-            parent_event = trip_event.id
+            parent_event = trip_event.id,
+            title = uploaded_file.filename
         )    
 
     file_uploaded = (new_file != None)
+    returned_data = None
+    if file_uploaded:
+        returned_data = new_file.as_dict()
 
     result = jsonify({
         'status' : file_uploaded,
-        'data' : new_file.as_dict()
+        'data' : returned_data
     })
     return result
 
@@ -130,7 +136,7 @@ def new_photo(id):
     trip_event = TripEvent.get_or_none(TripEvent.id == id)
     new_photo = None
 
-    if trip_event and request.files['photo']:
+    if trip_event and 'photo' in request.files:
         uploaded_photo = request.files['photo']
         parent_trip = trip_event.parent_trip
         parent_user = parent_trip.parent_user
@@ -138,14 +144,18 @@ def new_photo(id):
         upload_to_s3(uploaded_photo, S3_BUCKET, f'photos/{parent_trip.id}/{trip_event.id}/{parent_user.id}' )
         new_photo = PhotoAttachment.create(
             url = f"{parent_trip.id}/{trip_event.id}/{parent_user.id}/{uploaded_photo.filename}",
-            parent_event = trip_event.id
+            parent_event = trip_event.id,
+            title = uploaded_photo.filename
         )    
 
     photo_uploaded = (new_photo != None)
+    returned_data = None
+    if photo_uploaded:
+        returned_data = new_photo.as_dict()
 
     result = jsonify({
         'status' : photo_uploaded,
-        'data' : new_photo.as_dict()
+        'data' : returned_data
     })
     return result
 
