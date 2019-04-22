@@ -45,7 +45,7 @@ def create():
         email = request.form['email'] ,
         username = request.form['username'],
         password = hashed_password,
-        bio_text = None
+        bio_text = ''
         )
     new_user.save()
 
