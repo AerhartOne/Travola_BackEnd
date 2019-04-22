@@ -93,17 +93,22 @@ def login():
     access_token = None
     refresh_token = None
 
+    return_data = None
+
     if user_object != None:
         if check_password_hash(user_object.password, password):
             access_token = create_access_token(identity=user_object.as_dict())
             refresh_token = create_refresh_token(identity=user_object.as_dict())
+            return_data = user_object.as_dict()
             logged_in = True
         else:
             user_object = None
 
+
+
     result = jsonify({
         'status' : (user_found and logged_in),
-        'data' : user_object.as_dict(),
+        'data' : return_data,
         'access_token' : access_token,
         'refresh_token' : refresh_token
     })
