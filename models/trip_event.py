@@ -12,11 +12,16 @@ class TripEvent(BaseModel):
 
     def as_dict(self):
         date_time_split = str( self.date_time ).split()
+        date_time_local = self.date_time
+        if (len(date_time_split) == 2):
+            date_time_local = f'{date_time_split[0]}T{date_time_split[1]}'
+
         json_dict = {
             'id': self.id,
             'event_name': self.event_name,
             'parent_trip': self.parent_trip.id,
-            'date_time': f'{date_time_split[0]}T{date_time_split[1]}',
+            'date_time': self.date_time,
+            'date_time_local': date_time_local,
             'location': self.location,
             'desc': self.desc,
             'notification_sent': self.notification_sent
