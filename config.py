@@ -7,6 +7,7 @@ class Config(object):
     CSRF_ENABLED = False
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or os.urandom(32)
+    MAPBOX_KEY = os.environ.get('MAPBOX_KEY') 
 
 
 class ProductionConfig(Config):
