@@ -5,6 +5,7 @@ from models.file_attachment import FileAttachment
 from models.photo_attachment import PhotoAttachment
 from Travola_API.utils.AWSHelper import upload_to_s3, S3_BUCKET
 from flask_jwt_extended import jwt_required
+from app import geocoder
 
 trip_events_api_blueprint = Blueprint('trip_events_api',
                              __name__,
@@ -39,7 +40,9 @@ def create():
         parent_trip = data['parent_trip'],
         event_name = data['event_name'],
         date_time = data['date_time'],
-        location = data['location'],
+        location_address = data['location_address'],
+        latitude = data['latitude'],
+        longitude = data['longitude'],
         desc = data['desc']
     )
 
@@ -73,7 +76,9 @@ def edit(id):
     if (found_selected_trip):
         selected_trip_event.event_name = data['event_name']
         selected_trip_event.date_time = data['date_time']
-        selected_trip_event.location = data['location']
+        selected_trip_event.location_address = data['location_address']
+        selected_trip_event.latitude = data['latitude']
+        selected_trip_event.longitude = data['longitude']
         selected_trip_event.desc = data['desc']
         selected_trip_event.save()
         return_dict = selected_trip_event.as_dict()
@@ -158,4 +163,40 @@ def new_photo(id):
         'data' : returned_data
     })
     return result
+
+
+## MAP STUFF
+@trip_events_api_blueprint.route('/search', methods=['POST'])
+def search():
+    query = request.form.get('map_query')
+    response = geocoder.forward(query)
+    collection = response.json()
+    collection['type'] == 'FeatureCollection'
+    # first = response.geojson()['features'][0]
+    ## coordinates are located in the 'features' -> 'center' key that contains 2 items(lat & long) in an array 
+    latitude = response.geojson()['features'][0]['center'][0] ##LATITUDE COORDINATE
+    longitude = response.geojson()['features'][0]['center'][1] ## LONGITUDE COORDINATE
+
+    # return redirect(url_for('map', query=query, latitude=latitude, longitude=longitude, response=response))
+    return jsonify({
+        'latitude' : latitude,
+        'longitude' : longitude
+    })
+
+# @trip_events_api_blueprints.route('/save_location/<query>', methods=['POST'])
+# def save_location(query):
+#     response = geocoder.forward(query)
+#     latitude = response.geojson()['features'][0]['center'][0]
+#     longitude = response.geojson()['features'][0]['center'][1]
+#     first = response.geojson()['features'][0]
+#     address = first['place_name']
+
+    # updated_trip_event = TripEvent.update(longitude=longitude, latitude=latitude, location_address=address)
+    
+    # if updated_trip_event.execute():
+    #     print('Successfully Saved Trip to DB')
+    #     return redirect(url_for('map', query=query, first=first))
+    # else:
+    #     print('Failed to Save')
+    #     return redirect(url_for('map', query=query, first=first))
 
